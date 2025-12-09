@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ash & Anvil – Forged From the Fire</title>
+
+  <style>
+    :root {
+      --accent: #ff6a1a;
+      --accent-soft: #ffb27a;
+      --text-main: #f5f5f5;
+      --text-muted: #b3b3b3;
+      --border-subtle: #292b35;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-main);
+      line-height: 1.6;
+
+      /* 🔥 Forge-style background image */
+      background: url("background.jpg") no-repeat center center fixed;
+      background-size: cover;
+
+      position: relative;
+      z-index: 0;
+    }
+
+    /* 🌓 Dark overlay for readability */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(0,0,0,0.4), rgba(0,0,0,0.9));
+      z-index: -1;
+    }
+
+    /* 🎞 Subtle grain/texture overlay */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+
+      background-image:
+        radial-gradient(circle at 0 0, rgba(255,255,255,0.06) 0, transparent 55%),
+        radial-gradient(circle at 100% 0, rgba(0,0,0,0.25) 0, transparent 55%),
+        radial-gradient(circle at 0 100%, rgba(0,0,0,0.2) 0, transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(255,255,255,0.04) 0, transparent 55%);
+      background-size: 260px 260px;
+      mix-blend-mode: soft-light;
+      opacity: 0.28;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    header {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.25rem 1.5rem 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: 1px solid var(--accent-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+    }
+
+    nav {
+      display: flex;
+      gap: 1.25rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+
+    section {
+      margin: 2.75rem 0;
+      padding: 1.75rem 1.75rem 2rem;
+      border-radius: 16px;
+      background: rgba(8, 8, 12, 0.78);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(16px);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: 2.25rem;
+      align-items: center;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.75rem;
+      color: var(--accent-soft);
+      margin-bottom: 0.6rem;
+    }
+
+    h1 {
+      font-size: clamp(2.35rem, 3vw + 1.4rem, 3rem);
+      line-height: 1.1;
+      margin: 0 0 0.9rem;
+    }
+
+    p.hero-lead {
+      margin: 0 0 1.4rem;
+      font-size: 1rem;
+      color: var(--text-muted);
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.7rem 1.4rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: transform 0.08s ease-out, box-shadow 0.08s ease-out, background 0.12s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ff6a1a, #ffb27a);
+      color: #1b1110;
+      box-shadow: 0 0 24px rgba(255, 106, 26, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 32px rgba(255, 106, 26, 0.55);
+    }
+
+    .btn-ghost {
+      border-color: var(--border-subtle);
+      color: var(--text-muted);
+      background: rgba(14, 14, 22, 0.9);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(22, 22, 32, 0.95);
+      transform: translateY(-1px);
+    }
+
+    .hero-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .hero-right {
+      border-radius: 14px;
+      border: 1px dashed rgba(255,255,255,0.14);
+      padding: 1.25rem 1.4rem 1.3rem;
+      background: radial-gradient(circle at top, rgba(255,106,26,0.08), rgba(0,0,0,0.92));
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .hero-right strong {
+      color: var(--accent-soft);
+    }
+
+    .hero-tagline {
+      font-style: italic;
+      margin-top: 0.8rem;
+      color: var(--text-main);
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 1.45rem;
+    }
+
+    .stacked p {
+      margin: 0 0 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.4rem;
+    }
+
+    .card {
+      display: flex;              /* optional: align content nicely */
+      flex-direction: column;     /* text flows top-to-bottom */
+      padding: 0.75rem 0.75rem 1.2rem;  /* optional: slightly tighter padding */
+      border-radius: 12px;
+      background: rgba(5, 5, 10, 0.95);
+      border: 1px solid var(--border-subtle);
+      font-size: 0.93rem;
+    }
+
+    .card h3 {
+      margin-top: 0;
+      font-size: 1.05rem;
+    }
+
+    .pill {
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-soft);
+      margin-bottom: 0.3rem;
+    }
+
+    .books-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.4rem;
+    }
+
+    .book-meta {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .book-cta {
+      margin-top: 0.7rem;
+      font-size: 0.85rem;
+      color: var(--accent-soft);
+      margin-top: auto;   /* keeps CTA near bottom for even cards */
+    }
+
+    /* 📚 Book cover styling */
+    .book-cover {
+      width: 100%;
+      height: auto;
+      max-height: 280px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 0 12px rgba(0,0,0,0.4);
+      transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+      display: block;
+    }
+
+    /* subtle hover effect */
+    .book-cover:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 16px rgba(0,0,0,0.6);
+    }
+
+    .about-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 320px) minmax(0, 1.6fr);
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.avatar {
+  max-width: 320px;      /* controls how wide the photo can get */
+  border-radius: 14px;
+}
+
+
+
+    footer {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem;
+      border-top: 1px solid #1e2028;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 820px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6rem;
+      }
+      nav { display: none; }
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .grid-3,
+      .books-list,
+      .about-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+.about-photo {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 14px;
+  object-fit: contain;        /* show the entire image */
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-mark">A&A</div>
+    <span>Ash &amp; Anvil</span>
+  </div>
+  <nav>
+    <a href="#who">Who It’s For</a>
+    <a href="#books">Books</a>
+    <a href="#how">How It Helps</a>
+    <a href="#about">About</a>
+<div class="social-links">
+    <a href=https://www.instagram.com/ashandanvilofficial target="_blank">Instagram</a> ·
+    <a href=https://www.tiktok.com/@ash.and.anvil.official target="_blank">TikTok</a> ·
+    <a href=https://www.youtube.com/@AshandAnvilOfficial target="_blank">YouTube</a> ·
+    <a href="https://www.facebook.com/profile.php?id=61583471561581 target="_blank">FaceBook</a> ·
+  </nav>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div>
+      <div class="eyebrow">For men rising from the ashes</div>
+      <h1>Forged for those rebuilding after loss, divorce, and disruption.</h1>
+      <p class="hero-lead">
+        Ash &amp; Anvil is a series of honest, unpolished field manuals for men
+        who’ve watched the life they built burn down—and are ready to pick up
+        the hammer again.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="#books" class="btn btn-primary">Explore the Ash &amp; Anvil books</a>
+        <a href="#about" class="btn btn-ghost">Meet the man behind the forge</a>
+      </div>
+
+      <p class="hero-meta">
+        Start where you are. No fluff. No “just be positive.” Just real tools
+        for men rebuilding from the ground up.
+      </p>
+    </div>
+
+    <aside class="hero-right" aria-label="Ash &amp; Anvil snapshot">
+      <strong>A series forged in real fire.</strong>
+      <p class="hero-tagline">
+        Not theory. Not wishful thinking. These pages were written in the dark
+        nights after a marriage collapsed, a future disappeared, and a man had
+        to decide whether to stay buried—or rise.
+      </p>
+      <p>
+        If you’ve ever thought, “I don’t even recognize my own life anymore,”
+        you’re in the right place.
+      </p>
+    </aside>
+  </section>
+
+  <!-- WHO IT'S FOR -->
+  <section id="who" class="stacked">
+    <h2>Is Ash &amp; Anvil for you?</h2>
+    <p>Are you a man who did everything “right” and still watched the life you built burn down?</p>
+    <p>Do you feel the pressure to stay strong for everyone else while quietly wondering who is looking out for you?</p>
+    <p>Are you tired of self-help that talks down to you, skips the real pain, or offers clichés instead of clarity?</p>
+    <p>
+      Ash &amp; Anvil was built for the man in transition—the father, the ex-husband, the leader,
+      the quiet fighter who refuses to stay broken.
+    </p>
+  </section>
+
+  <!-- BOOKS -->
+  <section id="books">
+    <h2>The Ash &amp; Anvil series</h2>
+    <div class="books-list">
+
+      <!-- Grace & Iron -->
+      <article class="card">
+        <a href=https://a.co/d/0DrNCtA target="_blank" rel="noopener noreferrer">
+          <img class="book-cover"
+               src=images/grace-and-iron-cover.jpg
+               alt="Grace &amp; Iron book cover">
+        </a>
+
+        <div class="book-meta">Book One</div>
+        <h3>Grace &amp; Iron</h3>
+        <p>
+          A guide for men who want to stand firm without becoming hard,
+          to lead without controlling, and to love without losing themselves.
+        </p>
+        <div class="book-cta">
+          <a href=https://a.co/d/0DrNCtA target="_blank" rel="noopener noreferrer">
+            View on Amazon →
+          </a>
+        </div>
+      </article>
+
+      <!-- Forged Connection -->
+      <article class="card">
+        <a href=https://a.co/d/iH03OmA target="_blank" rel="noopener noreferrer">
+          <img class="book-cover"
+               src=images/forged-connection-cover.jpg
+               alt="Forged Connection book cover">
+        </a>
+
+        <div class="book-meta">Book Two</div>
+        <h3>Forged Connection</h3>
+        <p>
+          A field manual for rebuilding trust—with yourself, your people,
+          and the world—after isolation, conflict, or fallout.
+        </p>
+        <div class="book-cta">
+          <a href=https://a.co/d/iH03OmA target="_blank" rel="noopener noreferrer">
+            View on Amazon →
+          </a>
+        </div>
+      </article>
+
+      <!-- Forged in Loss -->
+      <article class="card">
+        <a href=https://a.co/d/7g45wsT target="_blank" rel="noopener noreferrer">
+          <img class="book-cover"
+               src=images/forged-in-loss-cover.jpg
+               alt="Forged in Loss book cover">
+        </a>
+
+        <div class="book-meta">Book Three</div>
+        <h3>Forged in Loss</h3>
+        <p>
+          Walking through grief without losing yourself in it, and learning how
+          to build a life that honors what burned without living in the ashes.
+        </p>
+        <div class="book-cta">
+          <a href=https://a.co/d/7g45wsT target="_blank" rel="noopener noreferrer">
+            View on Amazon →
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- HOW IT HELPS -->
+  <section id="how">
+    <h2>How Ash &amp; Anvil helps you rebuild</h2>
+    <div class="grid-3">
+      <div class="card">
+        <div class="pill">Read</div>
+        <h3>Honest field manuals</h3>
+        <p>
+          Straight talk from a man who has been through the fire. No jargon,
+          no guru voice—just language that sounds like a friend sitting across the table.
+        </p>
+      </div>
+      <div class="card">
+        <div class="pill">Reflect</div>
+        <h3>Questions that don’t flinch</h3>
+        <p>
+          Each chapter gives you prompts to face what happened, what you’ve
+          been carrying, and what you really want next.
+        </p>
+      </div>
+      <div class="card">
+        <div class="pill">Rebuild</div>
+        <h3>Steps you can actually take</h3>
+        <p>
+          Simple, practical actions to stabilize your finances, rebuild
+          your inner life, and reconnect with the people who matter.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+ <section id="about">
+  <h2>Who is behind the anvil?</h2>
+  <div class="about-layout">
+    <div class="avatar">
+      <img src="images/Calan-Dvac.png" class="about-photo" alt="Calan Dvac at the anvil">
+    </div>
+    <div>
+      <p>
+        My name is <strong>Calan Dvac</strong>, the man behind Ash &amp; Anvil.
+        I’m a divorced dad who watched a marriage, a future, and a version of
+        myself collapse in real time.
+      </p>
+      <p>
+        I didn’t write these books from a mountaintop. I wrote them in the
+        quiet, in the dark, while figuring out the new truth of my reality,
+        pay the bills, and still believe that something good could be
+        built from the wreckage.
+      </p>
+      <p>
+        Ash &amp; Anvil is my way of handing you what I wish I had: language
+        for what you’re feeling, tools to steady yourself, and the reminder
+        that you are not done yet. You aren't alone in the dark, I'm here with you.
+        I forged a new path, and now I am reaching out to help you find yours.
+        <strong>Rise. Rebuild. Reignite.</strong>
+      </p>
+    </div>
+  </div>
+</section>
+
+
+  <!-- FINAL CTA -->
+  <section>
+    <h2>Ready to take your next step?</h2>
+    <p>
+      You don’t have to map your whole future tonight. You only have to choose
+      not to stay buried. Start with one book, one chapter, one page.
+    </p>
+    <div class="hero-buttons">
+      <a href=https://a.co/d/7g45wsT class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+        Start with Forged in Loss
+      </a>
+      <a href="#top" class="btn btn-ghost">
+        Back to the top
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span>&copy; <span id="year"></span> Ash &amp; Anvil. All rights reserved.</span>
+  <span>Brand &amp; words by Calan Dvac.</span>
+  <span>&copy; <span id="year"></span> Ash & Anvil. All rights reserved.</span>
+  </div>
+</footer>
+
+</footer>
+
+<script>
+  // keep the year current automatically
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
